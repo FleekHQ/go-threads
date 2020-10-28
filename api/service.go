@@ -177,9 +177,12 @@ func (s *Service) NewDB(ctx context.Context, req *pb.NewDBRequest) (*pb.NewDBRep
 	if err != nil {
 		return nil, err
 	}
-	threadKey, err := thread.KeyFromBytes(req.ThreadKey)
-	if err != nil {
-		return nil, status.Error(codes.InvalidArgument, err.Error())
+	var threadKey thread.Key
+	if req.ThreadKey != nil {
+		threadKey, err = thread.KeyFromBytes(req.ThreadKey)
+		if err != nil {
+			return nil, status.Error(codes.InvalidArgument, err.Error())
+		}
 	}
 	logKey, err := logKeyFromBytes(req.LogKey)
 	if err != nil {
@@ -222,9 +225,12 @@ func (s *Service) NewDBFromAddr(ctx context.Context, req *pb.NewDBFromAddrReques
 	if err != nil {
 		return nil, err
 	}
-	threadKey, err := thread.KeyFromBytes(req.ThreadKey)
-	if err != nil {
-		return nil, status.Error(codes.InvalidArgument, err.Error())
+	var threadKey thread.Key
+	if req.ThreadKey != nil {
+		threadKey, err = thread.KeyFromBytes(req.ThreadKey)
+		if err != nil {
+			return nil, status.Error(codes.InvalidArgument, err.Error())
+		}
 	}
 	logKey, err := logKeyFromBytes(req.LogKey)
 	if err != nil {
